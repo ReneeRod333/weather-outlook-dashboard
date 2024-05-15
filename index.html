@@ -12,7 +12,7 @@
     integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" /> -->
     <!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet" /> -->
     <!-- <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" /> -->
-    <link rel="stylesheet" href="./assets/css/style.css" />
+    <!-- <link rel="stylesheet" href="./assets/css/style.css" /> -->
     <title>My Weather Dashboard</title>
 </head>
 
@@ -22,62 +22,86 @@
         <div class="row justify-content-center">
             <h1 class="display-3">Weather Dashboard</h1>
 
-            <div class="col-sm-4 offsetinput-group">
+            <!-- <div class="col-sm-4 offsetinput-group">
                 <input class="form-control border-end-0 border rounded-pill" type="text" placeholder="Search by city..."
                     id="example-search-input">
-            </div>
+            </div> -->
 
         </div>
 
 
     </header>
+    <div class="container-fluid">
+        <div class="row">
 
-    <div class="container-fluid mt-5">
-        <div class="container col-lg-3 p-4 bg-light">
-            <div class="row p-1 justify-content-center">
-                CITY NAME
+            <div class="col-sm-3 offsetinput-group mt-4">
+                <div class="row" id="search">
+                    <div class="input-group">
+                        <input type="search" id="searchCity" class="form-control rounded-pill"
+                            placeholder="Enter city name..." />
+                        <span class="input-group-addon"><input type="submit" value="Search" id="searchButton"
+                                class="btn btn-primary rounded-pill"></span>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="mt-4 text-center" id="savedHistory">
+                        Search History
+                    </div>
+                    <ul id="historyList" class="list-group">
+                    </ul>
+                </div>
             </div>
 
-            <div class="row p-2">
-                TEMP
-            </div>
+            <div class="col-sm-8 mt-4">
+                <div class="row justify-content-center">
+                    <div class="col-lg-4 p-4 bg-light">
+                        <div class="row p-1 justify-content-center">
+                            CITY NAME
+                        </div>
 
-            <div class="row p-2">
-                WIND
-            </div>
+                        <div class="row p-2">
+                            TEMP
+                        </div>
 
-            <div class="row p-2">
-                HUMIDITY
+                        <div class="row p-2">
+                            WIND
+                        </div>
+
+                        <div class="row p-2">
+                            HUMIDITY
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row justify-content-center .me-auto mt-5">
+                    <div class="col-lg-2 ms-auto p-3 bg-light text-center">
+                        Col One
+                    </div>
+                    <div class="col-lg-2 ms-auto p-3 bg-light text-center">
+                        Col Two
+                    </div>
+                    <div class="col-lg-2 ms-auto p-3 bg-light text-center">
+                        Col Three
+                    </div>
+                    <div class="col-lg-2 ms-auto p-3 bg-light text-center">
+                        Col Four
+                    </div>
+                    <div class="col-lg-2 ms-auto p-3 bg-light text-center">
+                        Col Five
+                    </div>
+                </div>
+
             </div>
         </div>
-
-        <div class="container mt-5">
-            <div class="row justify-content-center .me-auto">
-                <div class="col-lg-2 ms-auto p-3 bg-light text-center">
-                    Col One
-                </div>
-                <div class="col-lg-2 ms-auto p-3 bg-light text-center">
-                    Col Two
-                </div>
-                <div class="col-lg-2 ms-auto p-3 bg-light text-center">
-                    Col Three
-                </div>
-                <div class="col-lg-2 ms-auto p-3 bg-light text-center">
-                    Col Four
-                </div>
-                <div class="col-lg-2 ms-auto p-3 bg-light text-center">
-                    Col Five
-                </div>
-            </div>
-        </div>
-
-
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
             integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
             crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
             integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
             crossorigin="anonymous"></script>
+        <script src="assets/js/script.js"></script>
     </div>
 </body>
 
