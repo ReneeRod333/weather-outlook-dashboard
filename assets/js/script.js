@@ -1,4 +1,5 @@
 const apiKey = "f39b8362e470dd8ca1c84cea6f103b60";
+const baseIconUrl = `https://openweathermap.org/img/wn/`;
 
 // Saves cities to local Storage
 function savedCities(cities) {
@@ -112,7 +113,7 @@ function renderCurrentWeather(rawApiData) {
     const currentWeather = {
         status: rawApiData.weather[0].main,
         statusDescription: rawApiData.weather[0].description,
-        // statusIcon: rawApiData.weather[0].icon,
+        statusIcon: `${baseIconUrl}${rawApiData.weather[0].icon}.png`,
         temp: rawApiData.main.temp,
         humidity: rawApiData.main.humidity,
         windSpeed: rawApiData.wind.speed,
@@ -122,7 +123,8 @@ function renderCurrentWeather(rawApiData) {
     const container = $('<div class="col-lg-4 p-4 bg-light"></div>');
     const cityNameDiv = $('<div class="row p-1 justify-content-center"></div>');
     const currentDateDiv = $('<div class="row p-2"></div>');
-    // const currentWeatherIconDiv = $('<div class="row p-2"></div>');
+    const currentWeatherIconDiv = $('<div class="row p-2"></div>');
+    const iconImg = $('<img class="imgIcon" />')
     const currentWeatherStatusDiv = $('<div class="row p-2"></div>');
     const currentWeatherStatusDescriptionDiv = $('<div class="row p-2"></div>');
     const currentTempDiv = $('<div class="row p-2"></div>');
@@ -131,16 +133,17 @@ function renderCurrentWeather(rawApiData) {
 
     cityNameDiv.text(currentWeather.cityName);
     currentDateDiv.text(currentWeather.currentDate);
-    // currentWeatherIconDiv.html(currentWeather.statusIcon);
+    iconImg.attr('src', currentWeather.statusIcon);
     currentWeatherStatusDiv.text(currentWeather.status);
     currentWeatherStatusDescriptionDiv.text(currentWeather.statusDescription);
-    currentTempDiv.html(`${currentWeather.temp} &deg;F`);
-    currentWindSpeedDiv.text(`${currentWeather.windSpeed} MPH`);
-    currentHumidityDiv.text(`${currentWeather.humidity} %`);
+    currentTempDiv.html(`Temp: ${currentWeather.temp} &deg;F`);
+    currentWindSpeedDiv.text(`Wind: ${currentWeather.windSpeed} MPH`);
+    currentHumidityDiv.text(`Humidity: ${currentWeather.humidity} %`);
 
     container.append(cityNameDiv);
     container.append(currentDateDiv);
-    // container.append(currentWeatherIconDiv);
+    currentWeatherIconDiv.append(iconImg);
+    container.append(currentWeatherIconDiv);
     container.append(currentWeatherStatusDiv);
     container.append(currentWeatherStatusDescriptionDiv);
     container.append(currentTempDiv);
@@ -156,6 +159,7 @@ function renderForecastWeather(rawApiDataForecast) {
     for (let index = 3; index < rawApiDataForecast.list.length; index += 8) {
         const forecastWeather = {
             forecastDate: rawApiDataForecast.list[index].dt_txt,
+            statusIcon: `${baseIconUrl}${rawApiDataForecast.list[index].weather[0].icon}.png`,
             status: rawApiDataForecast.list[index].weather[0].main,
             statusDescription: rawApiDataForecast.list[index].weather[0].description,
             temp: rawApiDataForecast.list[index].main.temp,
@@ -164,6 +168,8 @@ function renderForecastWeather(rawApiDataForecast) {
         };
         const container = $('<div class="col-lg-2 ms-auto p-3 bg-light text-center"></div>');
         const forecastDateDiv = $('<div class="row p-2"></div>');
+        const forecastWeatherIconDiv = $('<div class="row p-2"></div>');
+        const iconImg = $('<img class="imgIcon" />')
         const forecastWeatherStatusDiv = $('<div class="row p-2"></div>');
         const forecastWeatherStatusDescriptionDiv = $('<div class="row p-2"></div>');
         const forecastTempDiv = $('<div class="row p-2"></div>');
@@ -171,6 +177,8 @@ function renderForecastWeather(rawApiDataForecast) {
         const forecastWindSpeedDiv = $('<div class="row p-2"></div>');
 
         forecastDateDiv.text(forecastWeather.forecastDate);
+        iconImg.attr('src', forecastWeather.statusIcon);
+        console.log({forecastWeather});
         forecastWeatherStatusDiv.text(forecastWeather.status);
         forecastWeatherStatusDescriptionDiv.text(forecastWeather.statusDescription);
         forecastTempDiv.html(`${forecastWeather.temp} &deg;F`);
@@ -178,6 +186,8 @@ function renderForecastWeather(rawApiDataForecast) {
         forecastHumityDiv.text(`${forecastWeather.humidity} %`);
 
         container.append(forecastDateDiv);
+        forecastWeatherIconDiv.append(iconImg);
+        container.append(forecastWeatherIconDiv);
         container.append(forecastWeatherStatusDiv);
         container.append(forecastWeatherStatusDescriptionDiv);
         container.append(forecastTempDiv);
@@ -193,6 +203,8 @@ $(document).ready(function () {
     renderSearchHistory();
 });
 
+function weatherStatus () {
 
+}
 
 
