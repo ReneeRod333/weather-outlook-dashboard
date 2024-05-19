@@ -21,14 +21,7 @@
     <header class="p-4 mb-4 text-center border-bottom border-5">
         <div class="row justify-content-center">
             <h1 class="display-3">Weather Dashboard</h1>
-
-            <!-- <div class="col-sm-4 offsetinput-group">
-                <input class="form-control border-end-0 border rounded-pill" type="text" placeholder="Search by city..."
-                    id="example-search-input">
-            </div> -->
-
         </div>
-
 
     </header>
     <div class="container-fluid">
@@ -51,30 +44,10 @@
                     </ul>
                 </div>
             </div>
-
             <div class="col-sm-8 mt-4">
-                <div class="row justify-content-center">
-                    <div class="col-lg-4 p-4 bg-light">
-                        <div class="row p-1 justify-content-center">
-                            CITY NAME
-                        </div>
-
-                        <div class="row p-2">
-                            TEMP
-                        </div>
-
-                        <div class="row p-2">
-                            WIND
-                        </div>
-
-                        <div class="row p-2">
-                            HUMIDITY
-                        </div>
-                    </div>
+                <div class="row justify-content-center" id="cityCurrentWeather">
                 </div>
-
-
-                <div class="row justify-content-center .me-auto mt-5">
+                <div class="row justify-content-center .me-auto mt-5" id="cityForecastWeather">
                     <div class="col-lg-2 ms-auto p-3 bg-light text-center">
                         Col One
                     </div>
@@ -91,7 +64,6 @@
                         Col Five
                     </div>
                 </div>
-
             </div>
         </div>
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

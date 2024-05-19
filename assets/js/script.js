@@ -51,8 +51,11 @@ function renderSearchHistory() {
         div1.append(div2);
         li.append(div1);
         li.append(closeButton);
-        li.on('click', function () { console.log('clicked li') })
         historyList.append(li);
+        li.on('click', function liClick() {
+            callCityCurrentWeatherAPI(city.name);
+            callCityForecastAPI(city.name);
+        });
     }
 }
 
@@ -66,9 +69,6 @@ function deleteCity(event) {
     renderSearchHistory();
 }
 
-
-
-
 async function callCityForecastAPI(city) {
     const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?appid=${apiKey}&units=imperial&q=${city},us`;
     const requestOptions = {
@@ -80,12 +80,12 @@ async function callCityForecastAPI(city) {
         // if (!response.ok) {
         //     throw
         // }
-        const forecastWeather = await response.json();
-        console.log({ forecastWeather });
+        const rawForecastWeather = await response.json();
+        renderForecastWeather(rawForecastWeather);
     } catch (error) {
-        console.log({error});
+        console.log({ error });
     }
-    
+
 }
 
 async function callCityCurrentWeatherAPI(city) {
@@ -99,20 +99,92 @@ async function callCityCurrentWeatherAPI(city) {
         // if (!response.ok) {
         //     throw
         // }
-        const currentWeather = await response.json();
-        console.log({ currentWeather });
+        const rawApiData = await response.json();
+        renderCurrentWeather(rawApiData);
     } catch (error) {
-        console.log({error});
+        console.log({ error });
     }
-    
 }
 
-function renderCurrentWeather() {
+function renderCurrentWeather(rawApiData) {
+    const cityCurrentWeatherDiv = $('#cityCurrentWeather');
+    cityCurrentWeatherDiv.empty();
+    const currentWeather = {
+        status: rawApiData.weather[0].main,
+        statusDescription: rawApiData.weather[0].description,
+        // statusIcon: rawApiData.weather[0].icon,
+        temp: rawApiData.main.temp,
+        humidity: rawApiData.main.humidity,
+        windSpeed: rawApiData.wind.speed,
+        cityName: rawApiData.name,
+        currentDate: Date(),
+    };
+    const container = $('<div class="col-lg-4 p-4 bg-light"></div>');
+    const cityNameDiv = $('<div class="row p-1 justify-content-center"></div>');
+    const currentDateDiv = $('<div class="row p-2"></div>');
+    // const currentWeatherIconDiv = $('<div class="row p-2"></div>');
+    const currentWeatherStatusDiv = $('<div class="row p-2"></div>');
+    const currentWeatherStatusDescriptionDiv = $('<div class="row p-2"></div>');
+    const currentTempDiv = $('<div class="row p-2"></div>');
+    const currentWindSpeedDiv = $('<div class="row p-2"></div>');
+    const currentHumidityDiv = $('<div class="row p-2"></div>');
 
+    cityNameDiv.text(currentWeather.cityName);
+    currentDateDiv.text(currentWeather.currentDate);
+    // currentWeatherIconDiv.html(currentWeather.statusIcon);
+    currentWeatherStatusDiv.text(currentWeather.status);
+    currentWeatherStatusDescriptionDiv.text(currentWeather.statusDescription);
+    currentTempDiv.html(`${currentWeather.temp} &deg;F`);
+    currentWindSpeedDiv.text(`${currentWeather.windSpeed} MPH`);
+    currentHumidityDiv.text(`${currentWeather.humidity} %`);
+
+    container.append(cityNameDiv);
+    container.append(currentDateDiv);
+    // container.append(currentWeatherIconDiv);
+    container.append(currentWeatherStatusDiv);
+    container.append(currentWeatherStatusDescriptionDiv);
+    container.append(currentTempDiv);
+    container.append(currentWindSpeedDiv);
+    container.append(currentHumidityDiv);
+    cityCurrentWeatherDiv.append(container);
 }
 
-function renderForecastWeather() {
+function renderForecastWeather(rawApiDataForecast) {
+    const cityForecastWeatherdiv = $('#cityForecastWeather');
+    cityForecastWeatherdiv.empty();
 
+    for (let index = 3; index < rawApiDataForecast.list.length; index += 8) {
+        const forecastWeather = {
+            forecastDate: rawApiDataForecast.list[index].dt_txt,
+            status: rawApiDataForecast.list[index].weather[0].main,
+            statusDescription: rawApiDataForecast.list[index].weather[0].description,
+            temp: rawApiDataForecast.list[index].main.temp,
+            humidity: rawApiDataForecast.list[index].main.humidity,
+            windSpeed: rawApiDataForecast.list[index].wind.speed,
+        };
+        const container = $('<div class="col-lg-2 ms-auto p-3 bg-light text-center"></div>');
+        const forecastDateDiv = $('<div class="row p-2"></div>');
+        const forecastWeatherStatusDiv = $('<div class="row p-2"></div>');
+        const forecastWeatherStatusDescriptionDiv = $('<div class="row p-2"></div>');
+        const forecastTempDiv = $('<div class="row p-2"></div>');
+        const forecastHumityDiv = $('<div class="row p-2"></div>');
+        const forecastWindSpeedDiv = $('<div class="row p-2"></div>');
+
+        forecastDateDiv.text(forecastWeather.forecastDate);
+        forecastWeatherStatusDiv.text(forecastWeather.status);
+        forecastWeatherStatusDescriptionDiv.text(forecastWeather.statusDescription);
+        forecastTempDiv.html(`${forecastWeather.temp} &deg;F`);
+        forecastWindSpeedDiv.text(`${forecastWeather.windSpeed} MPH`);
+        forecastHumityDiv.text(`${forecastWeather.humidity} %`);
+
+        container.append(forecastDateDiv);
+        container.append(forecastWeatherStatusDiv);
+        container.append(forecastWeatherStatusDescriptionDiv);
+        container.append(forecastTempDiv);
+        container.append(forecastHumityDiv);
+        container.append(forecastWindSpeedDiv);
+        cityForecastWeatherdiv.append(container);
+    }
 }
 
 $(document).ready(function () {
@@ -122,23 +194,5 @@ $(document).ready(function () {
 });
 
 
-
-// CURRENT WEATHER (use javascript date)
-// name
-// weather.main
-// weather.description
-// weather.icon ???
-// main.temp
-// main.humidity
-// wind.speed
-
-// FORECAST WEATHER
-// list.date.text
-// list.weather.icon ???
-// list.weather.main
-// list.weather.description
-// list.main.temp
-// list.main.humidity
-// List.wind.speed
 
 
