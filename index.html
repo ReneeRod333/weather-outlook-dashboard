@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- <meta http-equiv="X-UA-Compatible" content="ie=edge" /> -->
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" /> -->
+    <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+    integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" /> -->
+    <!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet" /> -->
+    <!-- <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" /> -->
+    <link rel="stylesheet" href="assets/styles/style.css" />
+    <title>My Weather Dashboard</title>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="p-4 mb-4 text-center border-bottom border-5">
+        <div class="row justify-content-center">
+            <h1 class="display-3">Weather Dashboard</h1>
+        </div>
+
+    </header>
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-sm-3 offsetinput-group mt-4">
+                <div class="row" id="search">
+                    <div class="input-group">
+                        <input type="search" id="searchCity" class="form-control rounded-pill"
+                            placeholder="Enter city name..." />
+                        <span class="input-group-addon"><input type="submit" value="Search" id="searchButton"
+                                class="btn btn-primary rounded-pill"></span>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="mt-4 text-center" id="savedHistory">
+                        Search History
+                    </div>
+                    <ul id="historyList" class="list-group">
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-8 mt-4">
+                <div class="row justify-content-center" id="cityCurrentWeather">
+                </div>
+                <div class="row justify-content-center .me-auto mt-5" id="cityForecastWeather">
+                    <div class="col-lg-2 ms-auto p-3 bg-light text-center">
+                        Col One
+                    </div>
+                    <div class="col-lg-2 ms-auto p-3 bg-light text-center">
+                        Col Two
+                    </div>
+                    <div class="col-lg-2 ms-auto p-3 bg-light text-center">
+                        Col Three
+                    </div>
+                    <div class="col-lg-2 ms-auto p-3 bg-light text-center">
+                        Col Four
+                    </div>
+                    <div class="col-lg-2 ms-auto p-3 bg-light text-center">
+                        Col Five
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+            integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+            integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+            crossorigin="anonymous"></script>
+        <script src="assets/js/script.js"></script>
+    </div>
+</body>
+
+</html>
