@@ -37,17 +37,18 @@ function addNewCity(event) {
     renderSearchHistory();
 }
 
+// Function to render search history
 function renderSearchHistory() {
     const cities = getCities();
     const historyList = $('#historyList');
     historyList.empty();
     for (const city of cities) {
-        const li = $("<li class='list-group-item d-flex justify-content-between rounded-pill align-items-start'></li>");
+        const li = $("<li class='list-group-item d-flex justify-content-between btn-warning rounded-pill align-items-start'></li>");
         li.attr('data-city-id', city.id);
         const div1 = $("<div class='ms-2 me-auto'></div");
         const div2 = $("<div class='fw-bold'>Subheading</div>");
         div2.text(city.name);
-        const closeButton = $("<button type='button' class='btn-close' aria-label='Close'></button>");
+        const closeButton = $("<button type='button' class='btn-close btn-light' aria-label='Close'></button>");
         closeButton.on('click', deleteCity);
         div1.append(div2);
         li.append(div1);
@@ -60,6 +61,7 @@ function renderSearchHistory() {
     }
 }
 
+// Function to delete city from search history
 function deleteCity(event) {
     const closeButton = $(event.target);
     const li = closeButton.parent();
@@ -70,6 +72,7 @@ function deleteCity(event) {
     renderSearchHistory();
 }
 
+// Function to call forecast city API
 async function callCityForecastAPI(city) {
     const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?appid=${apiKey}&units=imperial&q=${city},us`;
     const requestOptions = {
@@ -78,9 +81,6 @@ async function callCityForecastAPI(city) {
     };
     try {
         const response = await fetch(apiUrl, requestOptions);
-        // if (!response.ok) {
-        //     throw
-        // }
         const rawForecastWeather = await response.json();
         renderForecastWeather(rawForecastWeather);
     } catch (error) {
@@ -89,6 +89,7 @@ async function callCityForecastAPI(city) {
 
 }
 
+// Function to call current city API
 async function callCityCurrentWeatherAPI(city) {
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?appid=${apiKey}&units=imperial&q=${city},us`;
     const requestOptions = {
@@ -97,9 +98,6 @@ async function callCityCurrentWeatherAPI(city) {
     };
     try {
         const response = await fetch(apiUrl, requestOptions);
-        // if (!response.ok) {
-        //     throw
-        // }
         const rawApiData = await response.json();
         renderCurrentWeather(rawApiData);
     } catch (error) {
@@ -107,24 +105,26 @@ async function callCityCurrentWeatherAPI(city) {
     }
 }
 
+// Function to render current city data
 function renderCurrentWeather(rawApiData) {
     const cityCurrentWeatherDiv = $('#cityCurrentWeather');
     cityCurrentWeatherDiv.empty();
     const currentWeather = {
         status: rawApiData.weather[0].main,
         statusDescription: rawApiData.weather[0].description,
-        statusIcon: `${baseIconUrl}${rawApiData.weather[0].icon}.png`,
+        statusIcon: `${baseIconUrl}${rawApiData.weather[0].icon}@2x.png`,
         temp: rawApiData.main.temp,
         humidity: rawApiData.main.humidity,
         windSpeed: rawApiData.wind.speed,
         cityName: rawApiData.name,
-        currentDate: Date(),
+        currentDate: new Date().toDateString(),
     };
-    const container = $('<div class="col-lg-4 p-4 bg-light"></div>');
-    const cityNameDiv = $('<div class="row p-1 justify-content-center"></div>');
-    const currentDateDiv = $('<div class="row p-2"></div>');
-    const currentWeatherIconDiv = $('<div class="row p-2"></div>');
-    const iconImg = $('<img class="imgIcon" />')
+   
+    const container = $('<div class="col-lg-4 p-4 rounded bg-white"></div>');
+    const cityNameDiv = $('<h2 class="row p-1 justify-content-center"></h2>');
+    const currentDateDiv = $('<div class="row justify-content-center p-2"></div>');
+    const currentWeatherIconDiv = $('<div class="row justify-content-center p-2"></div>');
+    const iconImg = $('<img class="imgIcon rounded-pill" />')
     const currentWeatherStatusDiv = $('<div class="row p-2"></div>');
     const currentWeatherStatusDescriptionDiv = $('<div class="row p-2"></div>');
     const currentTempDiv = $('<div class="row p-2"></div>');
@@ -138,7 +138,7 @@ function renderCurrentWeather(rawApiData) {
     currentWeatherStatusDescriptionDiv.text(currentWeather.statusDescription);
     currentTempDiv.html(`Temp: ${currentWeather.temp} &deg;F`);
     currentWindSpeedDiv.text(`Wind: ${currentWeather.windSpeed} MPH`);
-    currentHumidityDiv.text(`Humidity: ${currentWeather.humidity} %`);
+    currentHumidityDiv.text(`Humidity: ${currentWeather.humidity}%`);
 
     container.append(cityNameDiv);
     container.append(currentDateDiv);
@@ -152,38 +152,41 @@ function renderCurrentWeather(rawApiData) {
     cityCurrentWeatherDiv.append(container);
 }
 
+// Function to render forecast city data
 function renderForecastWeather(rawApiDataForecast) {
     const cityForecastWeatherdiv = $('#cityForecastWeather');
     cityForecastWeatherdiv.empty();
+    const forecastHeading = $('<h2 class="p-4">5 Day Forecast:</h2>');
+    cityForecastWeatherdiv.append(forecastHeading);
 
     for (let index = 3; index < rawApiDataForecast.list.length; index += 8) {
         const forecastWeather = {
-            forecastDate: rawApiDataForecast.list[index].dt_txt,
-            statusIcon: `${baseIconUrl}${rawApiDataForecast.list[index].weather[0].icon}.png`,
+            forecastDate: new Date(rawApiDataForecast.list[index].dt * 1000).toDateString(),
+            statusIcon: `${baseIconUrl}${rawApiDataForecast.list[index].weather[0].icon}@2x.png`,
             status: rawApiDataForecast.list[index].weather[0].main,
             statusDescription: rawApiDataForecast.list[index].weather[0].description,
             temp: rawApiDataForecast.list[index].main.temp,
             humidity: rawApiDataForecast.list[index].main.humidity,
             windSpeed: rawApiDataForecast.list[index].wind.speed,
         };
-        const container = $('<div class="col-lg-2 ms-auto p-3 bg-light text-center"></div>');
-        const forecastDateDiv = $('<div class="row p-2"></div>');
-        const forecastWeatherIconDiv = $('<div class="row p-2"></div>');
-        const iconImg = $('<img class="imgIcon" />')
-        const forecastWeatherStatusDiv = $('<div class="row p-2"></div>');
-        const forecastWeatherStatusDescriptionDiv = $('<div class="row p-2"></div>');
-        const forecastTempDiv = $('<div class="row p-2"></div>');
-        const forecastHumityDiv = $('<div class="row p-2"></div>');
-        const forecastWindSpeedDiv = $('<div class="row p-2"></div>');
+        console.log({forecastWeather})
+        const container = $('<div class="col-lg-2 ms-auto p-3 bg-white text-center rounded"></div>');
+        const forecastDateDiv = $('<div class="row justify-content-center p-1"></div>');
+        const forecastWeatherIconDiv = $('<div class="row justify-content-center p-1"></div>');
+        const iconImg = $('<img class="imgIcon rounded-pill" />')
+        const forecastWeatherStatusDiv = $('<div class="row p-1"></div>');
+        const forecastWeatherStatusDescriptionDiv = $('<div class="row p-1"></div>');
+        const forecastTempDiv = $('<div class="row p-1"></div>');
+        const forecastHumityDiv = $('<div class="row p-1"></div>');
+        const forecastWindSpeedDiv = $('<div class="row p-1"></div>');
 
         forecastDateDiv.text(forecastWeather.forecastDate);
         iconImg.attr('src', forecastWeather.statusIcon);
-        console.log({forecastWeather});
         forecastWeatherStatusDiv.text(forecastWeather.status);
         forecastWeatherStatusDescriptionDiv.text(forecastWeather.statusDescription);
-        forecastTempDiv.html(`${forecastWeather.temp} &deg;F`);
-        forecastWindSpeedDiv.text(`${forecastWeather.windSpeed} MPH`);
-        forecastHumityDiv.text(`${forecastWeather.humidity} %`);
+        forecastTempDiv.html(`Temp: ${forecastWeather.temp} &deg;F`);
+        forecastWindSpeedDiv.text(`Wind: ${forecastWeather.windSpeed} MPH`);
+        forecastHumityDiv.text(`Humidity: ${forecastWeather.humidity}%`);
 
         container.append(forecastDateDiv);
         forecastWeatherIconDiv.append(iconImg);
@@ -197,6 +200,7 @@ function renderForecastWeather(rawApiDataForecast) {
     }
 }
 
+// When page loads, adds event listeners and renders search history.
 $(document).ready(function () {
     const searchButton = $('#searchButton');
     searchButton.on('click', addNewCity);
@@ -204,7 +208,6 @@ $(document).ready(function () {
 });
 
 function weatherStatus () {
-
 }
 
 
